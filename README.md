@@ -1,3 +1,5 @@
+[![Deploy backend on merge](https://github.com/is-miq-2024/backend/actions/workflows/deploy-job.yml/badge.svg)](https://github.com/is-miq-2024/backend/actions/workflows/deploy-job.yml)
+
 # Run project
 
 ## 1. Build project
