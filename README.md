@@ -35,3 +35,9 @@ docker build -t kotlin-spring-app .
 ```sh
 docker run -p 8080:8080 kotlin-spring-app
 ```
+
+# Contribute
+
+1. Открываешь PR со свей ветки в main
+2. После мерджа в main джобка передеплаивает проект
+3. Достучаться можно здесь: http://193.32.178.205:8080
