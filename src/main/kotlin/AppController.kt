@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController
 class AppController {
     @GetMapping("/hello")
     fun helloKotlin(): String {
-        return "hello world 2"
+        return "hello world"
     }
 }
