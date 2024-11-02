@@ -38,6 +38,12 @@ docker build -t kotlin-spring-app .
 docker run -p 8080:8080 kotlin-spring-app
 ```
 
+Поднять базку локально можно:
+
+```sh
+docker run -d -p 27017:27017 --name mongo-on-docker -e MONGO_INITDB_ROOT_USERNAME=mongoadmin -e MONGO_INITDB_ROOT_PASSWORD=secret -e MONGO_INITDB_DATABASE=testdb mongo
+```
+
 # Contribute
 
 1. Открываешь PR со свей ветки в main
