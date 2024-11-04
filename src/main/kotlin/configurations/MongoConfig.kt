@@ -22,6 +22,7 @@ class MongoConfig {
 
     @Bean
     fun mongoTemplate(mongoClient: MongoClient?): MongoTemplate {
-        return MongoTemplate(mongoClient!!, "testdb")
+        return MongoTemplate(mongoClient!!, "travel-db")
     }
 }
+
