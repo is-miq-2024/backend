@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin
-@RequestMapping("/")
+@RequestMapping("/route")
 class RouteController(@Autowired private val routeService: RouteService, @Autowired private val routeRequestMapper: RouteRequestMapper) {
 
     @PostMapping("/save")
