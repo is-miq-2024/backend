@@ -25,3 +25,4 @@ class MongoConfig {
         return MongoTemplate(mongoClient!!, "travel-db")
     }
 }
+
