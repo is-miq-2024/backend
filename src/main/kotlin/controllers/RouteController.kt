@@ -27,7 +27,7 @@ class RouteController(@Autowired private val routeService: RouteService, @Autowi
 
     @GetMapping("/{id}")
     fun getRoute(@PathVariable id: String) : Route {
-        return  routeService.get(id)
+        return routeService.get(id)
     }
 
     @PostMapping("/")
