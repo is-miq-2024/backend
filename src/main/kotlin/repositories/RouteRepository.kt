@@ -5,10 +5,11 @@ import org.example.entities.RouteType
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 import java.time.Duration
-import java.util.UUID
+import java.util.*
+
 
 @Repository
-interface RouteRepository : MongoRepository<Route, UUID> {
+interface RouteRepository : MongoRepository<Route, UUID>, CriteriaRepository<Route> {
     fun findRoutesByTitle(title: String): List<Route>
 
     fun findByTypes(type: RouteType): List<Route>

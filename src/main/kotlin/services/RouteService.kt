@@ -5,6 +5,7 @@ import org.example.entities.Comment
 import org.example.entities.Route
 import org.example.exception.RouteException
 import org.example.repositories.RouteRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class RouteService(private val routeRepository: RouteRepository) {
+class RouteService(@Autowired private val routeRepository: RouteRepository) {
 
     fun save(route: Route): Route {
         return routeRepository.save(route)
@@ -25,8 +26,8 @@ class RouteService(private val routeRepository: RouteRepository) {
 
     fun get(id: String): Route = routeRepository.findById(UUID.fromString(id)).orElseThrow {RouteException("Route with id $id not found")}
 
-    fun getAll(routeFilter: RouteFilter): Page<Route> {
-        return routeRepository.findAll(PageRequest.of(routeFilter.pageNumber, routeFilter.pageSize, Sort.by("title")))
+    fun getAll(routeFilter: RouteFilter): List<Route> {
+        return routeRepository.findByFilter(routeFilter)
     }
 
     fun delete(id: String) {

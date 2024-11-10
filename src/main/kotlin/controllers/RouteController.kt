@@ -42,7 +42,7 @@ class RouteController(
     }
 
     @PostMapping("/")
-    fun getRoutes(@RequestBody routeFilter: RouteFilter) : Page<Route> {
+    fun getRoutes(@RequestBody routeFilter: RouteFilter) : List<Route> {
         return routeService.getAll(routeFilter)
     }
 

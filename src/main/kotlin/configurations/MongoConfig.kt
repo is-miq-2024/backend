@@ -4,12 +4,21 @@ import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoClients
-import org.springframework.beans.factory.annotation.Value
 import org.bson.UuidRepresentation
+import org.hibernate.cfg.Environment
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
+import org.springframework.jdbc.datasource.DriverManagerDataSource
+import org.springframework.orm.jpa.JpaDialect
+import org.springframework.orm.jpa.JpaVendorAdapter
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+import javax.sql.DataSource
+
 
 @Configuration
 @EnableMongoRepositories(basePackages = ["org.example.repositories"])
