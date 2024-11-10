@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Component
 import org.springframework.util.CollectionUtils
-import java.util.*
+import java.util.Optional
 
 @Component
 class CriteriaRepositoryImpl(@Autowired val mongoTemplate: MongoTemplate) : CriteriaRepository<Route> {
