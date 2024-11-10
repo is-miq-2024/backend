@@ -7,7 +7,7 @@ import org.example.entities.RouteType
 
 @Schema(name = "Route Create Request", description = "Route Create Request DTO")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class RouteCreateRequestDto(
+data class RouteCreateRequest(
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Title of route request")
     val title: String,

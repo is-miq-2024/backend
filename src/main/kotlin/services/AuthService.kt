@@ -1,6 +1,6 @@
 package org.example.services
 
-import org.example.dto.LoginAndRegisterRequestDto
+import org.example.dto.LoginAndRegisterRequest
 import org.example.entities.User
 import org.example.repositories.UserRepository
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -16,7 +16,7 @@ class AuthService(
     private val passwordEncoder: PasswordEncoder
 ) : UserDetailsService {
 
-    fun register(request: LoginAndRegisterRequestDto) {
+    fun register(request: LoginAndRegisterRequest) {
         if (userRepository.existsByUsername(request.username)) {
             throw RuntimeException("User already exists")
         }

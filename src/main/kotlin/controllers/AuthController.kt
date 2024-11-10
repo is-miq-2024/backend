@@ -1,6 +1,6 @@
 package org.example.controllers
 
-import org.example.dto.LoginAndRegisterRequestDto
+import org.example.dto.LoginAndRegisterRequest
 import org.example.services.AuthService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
@@ -22,13 +22,13 @@ class AuthController(
     }
 
     @PostMapping("/register")
-    fun register(@RequestBody request: LoginAndRegisterRequestDto): ResponseEntity<String> {
+    fun register(@RequestBody request: LoginAndRegisterRequest): ResponseEntity<String> {
         authService.register(request)
         return ResponseEntity.ok("User registered successfully!")
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody request: LoginAndRegisterRequestDto): ResponseEntity<String> {
+    fun login(@RequestBody request: LoginAndRegisterRequest): ResponseEntity<String> {
         val authentication: Authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(request.username, request.password)
         )
