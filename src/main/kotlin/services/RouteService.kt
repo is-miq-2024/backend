@@ -1,6 +1,6 @@
 package org.example.services
 
-import org.example.dto.RouteFilter
+import org.example.dto.RouteFilterDto
 import org.example.entities.Route
 import org.example.exception.RouteException
 import org.example.repositories.RouteRepository
@@ -24,8 +24,8 @@ class RouteService(private val repository: RouteRepository) {
 
     fun get(id: String): Route = repository.findById(UUID.fromString(id)).orElseThrow {RouteException("Route with id $id not found")}
 
-    fun getAll(routeFilter: RouteFilter): Page<Route> {
-        return repository.findAll(PageRequest.of(routeFilter.pageNumber, routeFilter.pageSize, Sort.by("title")))
+    fun getAll(routeFilterDto: RouteFilterDto): Page<Route> {
+        return repository.findAll(PageRequest.of(routeFilterDto.pageNumber, routeFilterDto.pageSize, Sort.by("title")))
     }
 
     fun delete(id: String) {

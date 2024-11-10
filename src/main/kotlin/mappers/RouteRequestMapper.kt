@@ -1,14 +1,14 @@
 package org.example.mappers
 
-import org.example.dto.RouteCreateRequest
-import org.example.dto.RouteUpdateRequest
+import org.example.dto.RouteCreateRequestDto
+import org.example.dto.RouteUpdateRequestDto
 import org.example.entities.Route
 import org.springframework.stereotype.Component
 import java.util.UUID
 
 @Component
 class RouteRequestMapper {
-    fun RouteCreateRequest.toDto(): Route {
+    fun RouteCreateRequestDto.toDto(): Route {
         return Route(
             id = UUID.randomUUID(),
             title = title,
@@ -23,7 +23,7 @@ class RouteRequestMapper {
         )
     }
 
-    fun RouteUpdateRequest.toDto(): Route {
+    fun RouteUpdateRequestDto.toDto(): Route {
         return Route(
             id = UUID.fromString(id),
             title = title,

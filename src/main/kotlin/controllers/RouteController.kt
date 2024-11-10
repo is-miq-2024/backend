@@ -1,8 +1,8 @@
 package org.example.controllers
 
-import org.example.dto.RouteFilter
-import org.example.dto.RouteCreateRequest
-import org.example.dto.RouteUpdateRequest
+import org.example.dto.RouteFilterDto
+import org.example.dto.RouteCreateRequestDto
+import org.example.dto.RouteUpdateRequestDto
 import org.example.entities.Route
 import org.example.mappers.RouteRequestMapper
 import org.example.services.RouteService
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*
 class RouteController(@Autowired private val routeService: RouteService, @Autowired private val routeRequestMapper: RouteRequestMapper) {
 
     @PostMapping("/save")
-    fun saveRoute(@RequestBody routeRequest: RouteCreateRequest) {
+    fun saveRoute(@RequestBody routeRequest: RouteCreateRequestDto) {
         routeService.save(routeRequestMapper.run { routeRequest.toDto() })
     }
 
     @PostMapping("/update")
-    fun updateRoute(@RequestBody routeRequest: RouteUpdateRequest) {
+    fun updateRoute(@RequestBody routeRequest: RouteUpdateRequestDto) {
         routeService.update(routeRequestMapper.run { routeRequest.toDto() })
     }
 
@@ -31,8 +31,8 @@ class RouteController(@Autowired private val routeService: RouteService, @Autowi
     }
 
     @PostMapping("/")
-    fun getRoutes(@RequestBody routeFilter: RouteFilter) : Page<Route> {
-        return routeService.getAll(routeFilter)
+    fun getRoutes(@RequestBody routeFilterDto: RouteFilterDto) : Page<Route> {
+        return routeService.getAll(routeFilterDto)
     }
 
     @DeleteMapping("/{id}")

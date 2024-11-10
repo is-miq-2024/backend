@@ -10,9 +10,9 @@ import java.util.UUID
 @Document(collection = "users")
 data class User(
     @Id
-    val login: String,
+    val username: String,
     val favoriteRoutes: List<UUID>,
     val createdRoutes: List<UUID>,
     val completedRoutes: List<UUID>,
-    val password: Instant
+    val password: String
 )
