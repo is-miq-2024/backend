@@ -14,6 +14,13 @@ import java.util.Optional
 @Component
 class FilteringRepositoryImpl(@Autowired val mongoTemplate: MongoTemplate) : FilteringRepository<Route> {
 
+    companion object {
+        const val MIN_RATE  = 0.0
+        const val MAX_RATE  = 5.0
+        const val MIN_DIFFICULTY  = 0
+        const val MAX_DIFFICULTY = 10
+    }
+
     override fun findByFilter(filter: RouteFilter): List<Route> {
         val query = Query()
 
@@ -50,12 +57,5 @@ class FilteringRepositoryImpl(@Autowired val mongoTemplate: MongoTemplate) : Fil
         query.with(PageRequest.of(filter.pageNumber, filter.pageSize))
 
         return mongoTemplate.find(query, Route::class.java)
-    }
-
-    companion object {
-        const val MIN_RATE  = 0.0
-        const val MAX_RATE  = 5.0
-        const val MIN_DIFFICULTY  = 0
-        const val MAX_DIFFICULTY = 10
     }
 }
