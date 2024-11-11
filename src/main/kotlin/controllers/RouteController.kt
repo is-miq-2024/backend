@@ -8,7 +8,6 @@ import org.example.entities.Route
 import org.example.mappers.toEntity
 import org.example.services.RouteService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.*
 
 @RestController

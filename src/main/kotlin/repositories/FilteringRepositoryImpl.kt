@@ -12,7 +12,7 @@ import org.springframework.util.CollectionUtils
 import java.util.Optional
 
 @Component
-class CriteriaRepositoryImpl(@Autowired val mongoTemplate: MongoTemplate) : CriteriaRepository<Route> {
+class FilteringRepositoryImpl(@Autowired val mongoTemplate: MongoTemplate) : FilteringRepository<Route> {
 
     override fun findByFilter(filter: RouteFilter): List<Route> {
         val query = Query()

@@ -5,15 +5,11 @@ import org.example.entities.Comment
 import org.example.entities.Route
 import org.example.exception.RouteException
 import org.example.repositories.RouteRepository
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
-import java.util.*
+import java.util.UUID
 
 @Service
-class RouteService(@Autowired private val routeRepository: RouteRepository) {
+class RouteService(private val routeRepository: RouteRepository) {
 
     fun save(route: Route): Route {
         return routeRepository.save(route)

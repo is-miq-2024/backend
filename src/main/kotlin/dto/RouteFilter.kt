@@ -14,11 +14,11 @@ data class RouteFilter(
     @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Title pattern")
     val title: String?,
     @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Duration pattern")
-    val durationInMinutes: NumberPattern<Long>?,
+    val durationInMinutes: RangeFilter<Long>?,
     @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Difficulty pattern")
-    val difficulty: NumberPattern<Int>?,
+    val difficulty: RangeFilter<Int>?,
     @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Rate pattern")
-    val rate: NumberPattern<Double>?,
+    val rate: RangeFilter<Double>?,
     @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Types pattern")
     val types: Set<RouteType>?
 )
