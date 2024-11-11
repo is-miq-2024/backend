@@ -47,7 +47,7 @@ class RouteController(
         )
     }
 
-    @PostMapping("/")
+    @PostMapping("/search")
     fun getRoutes(@RequestBody routeFilter: RouteFilter) : List<Route> {
         return routeService.getAll(routeFilter)
     }
