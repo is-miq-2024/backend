@@ -20,7 +20,7 @@ class RouteService(private val routeRepository: RouteRepository) {
         return routeRepository.save(route)
     }
 
-    fun get(id: String): Route = routeRepository.findById(UUID.fromString(id)).orElseThrow {RouteException("Route with id $id not found")}
+    fun get(id: String): Route = routeRepository.findById(UUID.fromString(id)).orElseThrow {RouteException.routeNotFound(id)}
 
     fun getAll(routeFilter: RouteFilter): List<Route> {
         return routeRepository.findByFilter(routeFilter)
@@ -41,7 +41,7 @@ class RouteService(private val routeRepository: RouteRepository) {
 
             routeRepository.save(updatedRoute)
         } else {
-            throw RouteException("Route with ID $routeId not found")
+            throw RouteException.routeNotFound(routeId.toString())
         }
     }
 }
