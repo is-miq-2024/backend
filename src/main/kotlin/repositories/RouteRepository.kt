@@ -7,8 +7,9 @@ import org.springframework.stereotype.Repository
 import java.time.Duration
 import java.util.UUID
 
+
 @Repository
-interface RouteRepository : MongoRepository<Route, UUID> {
+interface RouteRepository : MongoRepository<Route, UUID>, FilteringRepository<Route> {
     fun findRoutesByTitle(title: String): List<Route>
 
     fun findByTypes(type: RouteType): List<Route>
