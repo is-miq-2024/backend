@@ -25,8 +25,8 @@ class RouteController(
 ) {
 
     @PostMapping("/save")
-    fun saveRoute(@RequestBody routeRequest: RouteCreateRequest) {
-        routeService.save(routeRequest.toEntity())
+    fun saveRoute(@RequestBody routeRequest: RouteCreateRequest) : Route {
+        return routeService.save(routeRequest.toEntity())
     }
 
     @PostMapping("/update")
