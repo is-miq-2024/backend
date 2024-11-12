@@ -33,7 +33,7 @@ class SecurityConfig(
                     .requestMatchers("/auth/register", "/auth/login").permitAll()
                     .anyRequest().authenticated()
             }
-            .formLogin { form -> form.defaultSuccessUrl("/route", true) }
+            .formLogin { form -> form.defaultSuccessUrl("/route/search", true) }
             .httpBasic { basicAuth -> basicAuth.realmName("Travel App") }
 
         return http.build()

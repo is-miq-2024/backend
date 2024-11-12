@@ -2,6 +2,7 @@ package org.example.services
 
 import org.example.dto.LoginAndRegisterRequest
 import org.example.entities.User
+import org.example.exception.AuthException
 import org.example.repositories.UserRepository
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -18,7 +19,7 @@ class AuthService(
 
     fun register(request: LoginAndRegisterRequest) {
         if (userRepository.existsByUsername(request.username)) {
-            throw RuntimeException("User already exists")
+            throw AuthException.userAlreadyExists(request.username)
         }
 
         val user = User(
@@ -33,7 +34,7 @@ class AuthService(
 
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userRepository.findByUsername(username)
-            .orElseThrow { UsernameNotFoundException("User not found") }
+            .orElseThrow { UsernameNotFoundException("User with username '$username' not found") }
 
         return org.springframework.security.core.userdetails.User(
             user.username,
