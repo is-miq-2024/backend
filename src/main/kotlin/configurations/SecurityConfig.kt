@@ -5,12 +5,12 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 import org.springframework.http.HttpStatus
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 
 @Configuration
@@ -19,13 +19,22 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 class SecurityConfig {
 
     @Bean
+    fun corsConfigurer(): WebMvcConfigurer {
+        return object : WebMvcConfigurer {
+            override fun addCorsMappings(registry: CorsRegistry) {
+                registry.addMapping("/**")
+            }
+        }
+    }
+
+    @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .cors { it.disable()}
+            .cors { it.disable() }
             .csrf { it.disable() }
             .authorizeHttpRequests { authz ->
                 authz
-                    .requestMatchers("/auth/register", "/auth/login", "/route/search", "/route/{id}")
+                    .requestMatchers("/auth/register", "/auth/login", "/route/search", "/route/{id}", "/swagger-ui/index.html")
                     .permitAll()
                     .anyRequest().authenticated()
             }
