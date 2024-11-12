@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class LoginAndRegisterRequest(
 
     @Schema(description = "Username of the new user", minLength = 6, maxLength = 32)
-    val username: String,
+    val login: String,
 
     @Schema(description = "Password for the new user", minLength = 6, maxLength = 32)
     val password: String

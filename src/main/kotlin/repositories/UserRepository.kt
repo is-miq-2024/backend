@@ -8,7 +8,7 @@ import java.util.Optional
 @Repository
 interface UserRepository : MongoRepository<User, String> {
 
-    fun existsByUsername(username: String): Boolean
+    fun existsByLogin(login: String): Boolean
 
-    fun findByUsername(username: String): Optional<User>
+    fun findByLogin(login: String): Optional<User>
 }

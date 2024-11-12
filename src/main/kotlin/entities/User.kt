@@ -7,7 +7,7 @@ import java.util.UUID
 @Document(collection = "users")
 data class User(
     @Id
-    val username: String,
+    val login: String,
 
     val favoriteRoutes: List<UUID> = emptyList(),
 

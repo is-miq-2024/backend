@@ -18,12 +18,12 @@ class AuthService(
 ) : UserDetailsService {
 
     fun register(request: LoginAndRegisterRequest) {
-        if (userRepository.existsByUsername(request.username)) {
-            throw AuthException.userAlreadyExists(request.username)
+        if (userRepository.existsByLogin(request.login)) {
+            throw AuthException.userAlreadyExists(request.login)
         }
 
         val user = User(
-            username = request.username,
+            login = request.login,
             password = passwordEncoder.encode(request.password),
             favoriteRoutes = listOf(),
             createdRoutes = listOf(),
@@ -33,11 +33,11 @@ class AuthService(
     }
 
     override fun loadUserByUsername(username: String): UserDetails {
-        val user = userRepository.findByUsername(username)
+        val user = userRepository.findByLogin(username)
             .orElseThrow { UsernameNotFoundException("User with username '$username' not found") }
 
         return org.springframework.security.core.userdetails.User(
-            user.username,
+            user.login,
             user.password,
             listOf(SimpleGrantedAuthority("USER"))
         )

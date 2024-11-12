@@ -4,4 +4,4 @@ import org.example.dto.UserResponse
 import org.example.entities.User
 
 fun User.toDto(): UserResponse =
-    UserResponse(username, favoriteRoutes, createdRoutes, completedRoutes)
+    UserResponse(login, favoriteRoutes, createdRoutes, completedRoutes)

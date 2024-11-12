@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.HttpStatusEntryPoint
+import org.springframework.http.HttpStatus
 
 @Configuration
 @EnableWebSecurity
@@ -30,11 +32,11 @@ class SecurityConfig(
             .csrf { it.disable() }
             .authorizeHttpRequests { authz ->
                 authz
-                    .requestMatchers("/auth/register", "/auth/login").permitAll()
+                    .requestMatchers("/auth/register", "/auth/login", "/route/search")
+                    .permitAll()
                     .anyRequest().authenticated()
             }
             .formLogin { form -> form.defaultSuccessUrl("/route/search", true) }
-            .httpBasic { basicAuth -> basicAuth.realmName("Travel App") }
 
         return http.build()
     }
