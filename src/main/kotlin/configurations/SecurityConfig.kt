@@ -24,6 +24,9 @@ class SecurityConfig {
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry.addMapping("/**")
                     .allowedOrigins("*")
+                    .allowedMethods("PUT", "DELETE",
+                        "GET", "POST")
+                    .allowedHeaders("*")
             }
         }
     }
