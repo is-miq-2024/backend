@@ -25,17 +25,39 @@ class AuthController(
     }
 
     @PostMapping("/register")
-    fun register(@RequestBody request: LoginAndRegisterRequest): ResponseEntity<String> {
+    fun register(@RequestBody request: LoginAndRegisterRequest): ResponseEntity<Map<String, String>> {
         authService.register(request)
-        return ResponseEntity.ok("User registered successfully!")
+        return ResponseEntity.ok(
+            mapOf(
+                "message" to "User registered successfully!",
+                "userLogin" to request.login
+            )
+        )
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody request: LoginAndRegisterRequest): ResponseEntity<String> {
+    fun login(@RequestBody request: LoginAndRegisterRequest): ResponseEntity<Map<String, Any>> {
         val authentication: Authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(request.login, request.password)
         )
         SecurityContextHolder.getContext().authentication = authentication
-        return ResponseEntity.ok("Login successful!")
+        val user = authService.findUserByLogin(request.login)
+        val response = mapOf(
+            "message" to "Login successful!",
+            "userId" to user.login
+        )
+        return ResponseEntity.ok(response)
+    }
+
+    @PostMapping("/logout")
+    fun logout(): ResponseEntity<Map<String, String>> {
+        val currentUser = SecurityContextHolder.getContext().authentication?.name ?: ""
+        SecurityContextHolder.clearContext()
+        return ResponseEntity.ok(
+            mapOf(
+                "message" to "Logout successful!",
+                "userId" to currentUser
+            )
+        )
     }
 }

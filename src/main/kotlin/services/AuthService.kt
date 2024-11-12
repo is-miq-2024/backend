@@ -42,4 +42,9 @@ class AuthService(
             listOf(SimpleGrantedAuthority("USER"))
         )
     }
+
+    fun findUserByLogin(login: String): User {
+        return userRepository.findByLogin(login)
+            .orElseThrow { UsernameNotFoundException("User with login '$login' not found") }
+    }
 }
