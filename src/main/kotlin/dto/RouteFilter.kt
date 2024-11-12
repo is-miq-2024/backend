@@ -7,8 +7,10 @@ import org.example.entities.RouteType
 @Schema(name = "Route filter", description = "The route filter")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class RouteFilter(
+
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Page size")
     val pageSize: Int,
+
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Page number")
     val pageNumber: Int,
     @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Title pattern")
