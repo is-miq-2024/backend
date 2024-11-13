@@ -27,11 +27,6 @@ class UserController(@Autowired private val userService: UserService) {
         userService.addFavoriteRoute(login, routeId)
     }
 
-    @PostMapping("/addCreatedRoute")
-    fun addCreatedRoute(@RequestParam login: String, @RequestParam routeId: UUID) {
-        userService.addCreatedRoute(login, routeId)
-    }
-
     @PostMapping("/addCompletedRoute")
     fun addCompletedRoute(@RequestParam login: String, @RequestParam routeId: UUID) {
         userService.addCompletedRoute(login, routeId)

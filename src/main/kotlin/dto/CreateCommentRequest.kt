@@ -11,8 +11,6 @@ data class CreateCommentRequest(
     val routeId: UUID,
     @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Text of comment")
     val text: String?,
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "The login of the user who adds the comment")
-    val login: String,
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Route assessment")
     val rate: Int
 )
