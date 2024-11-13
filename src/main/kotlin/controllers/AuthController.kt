@@ -26,7 +26,7 @@ class AuthController(
 
     @PostMapping("/register")
     fun register(@RequestBody request: LoginAndRegisterRequest): ResponseEntity<Map<String, String>> {
-        authService.register(request)
+        authService.register(request.login, request.password)
         return ResponseEntity.ok(
             mapOf(
                 "message" to "User registered successfully!",

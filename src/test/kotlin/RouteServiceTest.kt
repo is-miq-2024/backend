@@ -4,7 +4,10 @@ import org.example.entities.Point
 import org.example.entities.Route
 import org.example.entities.RouteType
 import org.example.repositories.RouteRepository
+import org.example.repositories.UserRepository
+import org.example.services.AuthService
 import org.example.services.RouteService
+import org.example.services.UserService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,15 +24,19 @@ import kotlin.test.assertNotNull
 @ComponentScan(basePackages = ["org.example"])
 class RouteServiceTest(
     @Autowired private val routeService: RouteService,
-    @Autowired private val routeRepository: RouteRepository
+    @Autowired private val routeRepository: RouteRepository,
+    @Autowired private val authService: AuthService,
+    @Autowired private val userRepository: UserRepository
 ) {
     @BeforeEach
     fun cleanDatabase() {
         routeRepository.deleteAll()
+        userRepository.deleteAll()
     }
 
     @Test
     fun givenNoExistingRoute_whenCreateNewRouteAndAddComment_thenRouteIsCorrect() {
+        authService.register("test", "1234567")
         val routeId = UUID.randomUUID()
         val newRoute = Route(
             id = routeId,
@@ -43,7 +50,7 @@ class RouteServiceTest(
             comments = listOf(),
             rate = 4.5
         )
-        routeService.save(newRoute)
+        routeService.save("test", newRoute)
         val commentId = UUID.randomUUID()
         val newComment = Comment(
             id = commentId,

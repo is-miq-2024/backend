@@ -9,5 +9,11 @@ class AuthException(
                 description = "User with username '$username' already exists"
             )
         }
+
+        fun notAuthorize(): AuthException {
+            return AuthException(
+                description = "need authorize"
+            )
+        }
     }
 }

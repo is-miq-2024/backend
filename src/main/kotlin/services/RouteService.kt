@@ -9,10 +9,15 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class RouteService(private val routeRepository: RouteRepository) {
+class RouteService(
+    private val routeRepository: RouteRepository,
+    private val userService: UserService
+) {
 
-    fun save(route: Route): Route {
-        return routeRepository.save(route)
+    fun save(login: String, route: Route): Route {
+        val route = routeRepository.save(route)
+        userService.addCreatedRoute(login, route.id)
+        return route
     }
 
     fun update(route: Route): Route {

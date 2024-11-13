@@ -17,14 +17,14 @@ class AuthService(
     private val passwordEncoder: PasswordEncoder
 ) : UserDetailsService {
 
-    fun register(request: LoginAndRegisterRequest) {
-        if (userRepository.existsByLogin(request.login)) {
-            throw AuthException.userAlreadyExists(request.login)
+    fun register(login: String, password: String) {
+        if (userRepository.existsByLogin(login)) {
+            throw AuthException.userAlreadyExists(login)
         }
 
         val user = User(
-            login = request.login,
-            password = passwordEncoder.encode(request.password),
+            login = login,
+            password = passwordEncoder.encode(password),
             favoriteRoutes = listOf(),
             createdRoutes = listOf(),
             completedRoutes = listOf()

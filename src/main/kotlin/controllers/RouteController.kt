@@ -5,9 +5,13 @@ import org.example.dto.RouteFilter
 import org.example.dto.RouteCreateRequest
 import org.example.dto.RouteUpdateRequest
 import org.example.entities.Route
+import org.example.exception.AuthException
+import org.example.exception.UserException
 import org.example.mappers.toEntity
 import org.example.services.RouteService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.User
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -26,7 +30,7 @@ class RouteController(
 
     @PostMapping("/save")
     fun saveRoute(@RequestBody routeRequest: RouteCreateRequest) : Route {
-        return routeService.save(routeRequest.toEntity())
+        return routeService.save(getCurrentUserLogin(), routeRequest.toEntity())
     }
 
     @PostMapping("/update")
@@ -43,7 +47,7 @@ class RouteController(
     fun addCommentToRoute(@RequestBody createCommentRequest: CreateCommentRequest) {
         routeService.addComment(
             createCommentRequest.routeId,
-            createCommentRequest.toEntity()
+            createCommentRequest.toEntity(getCurrentUserLogin())
         )
     }
 
@@ -55,5 +59,14 @@ class RouteController(
     @DeleteMapping("/{id}")
     fun deleteRoute(@PathVariable id: String) {
         return routeService.delete(id)
+    }
+
+    fun getCurrentUserLogin(): String {
+        val authentication = SecurityContextHolder.getContext().authentication
+        if (authentication == null || !authentication.isAuthenticated) {
+            throw AuthException.notAuthorize()
+        }
+        val user = authentication.principal as User
+        return user.username
     }
 }
