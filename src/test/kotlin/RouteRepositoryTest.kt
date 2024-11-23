@@ -44,6 +44,7 @@ class RouteRepositoryTest (
 
         val foundRoute = routeRepository.findById(routeId).orElse(null)
         assertNotNull(foundRoute, "Route should be found in database")
+        assertEquals(newRoute.id, foundRoute?.id)
         assertEquals(newRoute.title, foundRoute?.title)
         assertEquals(newRoute.description, foundRoute?.description)
         assertEquals(newRoute.recommendations, foundRoute?.recommendations)

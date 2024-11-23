@@ -1,6 +1,5 @@
 package org.example.services
 
-import org.example.dto.LoginAndRegisterRequest
 import org.example.entities.User
 import org.example.exception.AuthException
 import org.example.repositories.UserRepository
