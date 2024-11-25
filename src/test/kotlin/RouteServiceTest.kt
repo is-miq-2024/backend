@@ -1,76 +1,133 @@
-import org.example.KotlinDemoApplication
+import org.example.dto.RouteFilter
 import org.example.entities.Comment
-import org.example.entities.Point
 import org.example.entities.Route
-import org.example.entities.RouteType
+import org.example.exception.RouteException
 import org.example.repositories.RouteRepository
-import org.example.repositories.UserRepository
-import org.example.services.AuthService
 import org.example.services.RouteService
 import org.example.services.UserService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
-import org.springframework.context.annotation.ComponentScan
-import org.springframework.test.context.ContextConfiguration
-import java.time.Instant
+import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.Mock
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when`
+import org.mockito.junit.jupiter.MockitoExtension
 import java.util.UUID
+import java.util.Optional
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
-@DataMongoTest
-@ContextConfiguration(classes = [KotlinDemoApplication::class])
-@ComponentScan(basePackages = ["org.example"])
-class RouteServiceTest(
-    @Autowired private val routeService: RouteService,
-    @Autowired private val routeRepository: RouteRepository,
-    @Autowired private val authService: AuthService,
-    @Autowired private val userRepository: UserRepository
-) {
+@ExtendWith(MockitoExtension::class)
+class RouteServiceTest {
+
+    @Mock
+    private lateinit var routeRepository: RouteRepository
+
+    @Mock
+    private lateinit var userService: UserService
+
+    @Mock
+    private lateinit var route: Route
+
+    private lateinit var routeService: RouteService
+
     @BeforeEach
-    fun cleanDatabase() {
-        routeRepository.deleteAll()
-        userRepository.deleteAll()
+    fun setUp() {
+        routeService = RouteService(routeRepository, userService);
     }
 
     @Test
-    fun givenNoExistingRoute_whenCreateNewRouteAndAddComment_thenRouteIsCorrect() {
-        authService.register("test", "1234567")
+    fun givenRoute_whenSave_thenSaveRoute() {
+        val login = "testUser"
+
+        `when`(routeRepository.save(route)).thenReturn(route)
+
+        val savedRoute = routeService.save(login, route)
+
+        assertEquals(route, savedRoute)
+        verify(userService).addCreatedRoute(login, route.id)
+        verify(routeRepository).save(route)
+    }
+
+    @Test
+    fun givenRoute_whenUpdate_thenUpdateRoute() {
+        `when`(routeRepository.save(route)).thenReturn(route)
+
+        val updatedRoute = routeService.update(route)
+
+        verify(routeRepository).deleteById(route.id)
+        verify(routeRepository).save(route)
+        assertEquals(route, updatedRoute)
+    }
+
+    @Test
+    fun givenRouteId_whenFindById_thenReturnRoute() {
         val routeId = UUID.randomUUID()
-        val newRoute = Route(
-            id = routeId,
-            title = "Mountain Trail",
-            description = "A challenging mountain trail.",
-            recommendations = listOf("Bring water", "Wear hiking boots"),
-            durationInMinutes = 120,
-            difficulty = 5,
-            types = listOf(RouteType.CYCLING),
-            points = listOf(Point(34.0, -118.0)),
-            comments = listOf(),
-            rate = 4.5
-        )
-        routeService.save("test", newRoute)
-        val commentId = UUID.randomUUID()
-        val newComment = Comment(
-            id = commentId,
-            text = "text",
-            userLogin = "login",
-            rate = 5,
-            timestamp = Instant.now()
-        )
-        routeService.addComment(routeId, newComment)
-        val actual = routeService.get(routeId.toString())
-        assertNotNull(actual, "Route should not be null")
-        assertEquals(routeId, actual.id, "Route ID should match the expected ID")
+        `when`(routeRepository.findById(routeId)).thenReturn(Optional.of(route))
 
-        assertEquals(1, actual.comments.size, "There should be exactly one comment")
+        val foundRoute = routeService.get(routeId.toString())
 
-        val comment = actual.comments.first()
-        assertEquals(commentId, comment.id, "Comment ID should match the expected ID")
-        assertEquals("text", comment.text, "Comment text should match")
-        assertEquals("login", comment.userLogin, "Comment user login should match")
-        assertEquals(5, comment.rate, "Comment rate should match")
+        assertEquals(route, foundRoute)
+    }
 
+    @Test
+    fun givenNotExistingRouteId_whenFindById_thenThrowRouteException() {
+        val routeId = UUID.randomUUID()
+        `when`(routeRepository.findById(routeId)).thenReturn(Optional.empty())
+
+        val exception = assertThrows<RouteException> {
+            routeService.get(routeId.toString())
+        }
+
+        assertEquals("route with id ${routeId} not found", exception.message)
+    }
+
+    @Test
+    fun givenFilter_whenGetAll_thenReturnRoutes() {
+        val filter = mock<RouteFilter>()
+        val routes = listOf(route)
+        `when`(routeRepository.findByFilter(filter)).thenReturn(routes)
+
+        val foundRoutes = routeService.getAll(filter)
+
+        assertEquals(routes.size, foundRoutes.size)
+        assertEquals(routes, foundRoutes)
+    }
+
+    @Test
+    fun givenRouteId_whenDelete_thenDeleteRoute() {
+        val routeId = UUID.randomUUID()
+        routeService.delete(routeId.toString())
+        verify(routeRepository).deleteById(routeId)
+    }
+
+    @Test
+    fun givenComment_whenAddComment_thenAddComment() {
+        val routeId = UUID.randomUUID()
+        val comment = mock<Comment>()
+
+        `when`(routeRepository.findById(routeId)).thenReturn(Optional.of(route))
+        val updatedRoute = route.copy(comments = listOf(comment))
+        `when`(routeRepository.save(updatedRoute)).thenReturn(updatedRoute)
+
+        routeService.addComment(routeId, comment)
+
+        verify(routeRepository).findById(routeId)
+        verify(routeRepository).save(updatedRoute)
+    }
+
+    @Test
+    fun givenNotExistingRouteId_whenAddComment_thenAddComment() {
+        val routeId = UUID.randomUUID()
+        val comment = mock<Comment>()
+
+        `when`(routeRepository.findById(routeId)).thenReturn(Optional.empty())
+
+        val exception = assertThrows<RouteException> {
+            routeService.addComment(routeId, comment)
+        }
+
+        assertEquals("route with id ${routeId} not found", exception.message)
     }
 }
