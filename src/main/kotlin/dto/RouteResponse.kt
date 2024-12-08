@@ -6,6 +6,7 @@ import org.example.entities.Point
 import org.example.entities.RouteType
 import java.util.UUID
 
+@Schema(description = "Route")
 data class RouteResponse(
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Route id")
     val id: UUID,
