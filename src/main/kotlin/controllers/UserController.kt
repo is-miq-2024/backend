@@ -21,7 +21,6 @@ import java.util.UUID
 class UserController(
     @Autowired private val userService: UserService,
     @Autowired private val userMapper: UserMapper
-
 ) {
 
     @GetMapping("/findByLogin")
@@ -41,12 +40,12 @@ class UserController(
     }
 
     @PostMapping("/addCompletedRoute")
-    fun addCompletedRoute(@RequestParam login: String, @RequestParam routeId: UUID) {
+    fun addCompletedRoute(@RequestParam routeId: UUID) {
         userService.addCompletedRoute(getCurrentUserLogin(), routeId)
     }
 
     @DeleteMapping("/deleteCompletedRoute")
-    fun deleteCompletedRoute(@RequestParam login: String, @RequestParam routeId: UUID) {
+    fun deleteCompletedRoute(@RequestParam routeId: UUID) {
         userService.deleteCompletedRoute(getCurrentUserLogin(), routeId)
     }
 
