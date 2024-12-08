@@ -24,28 +24,28 @@ class UserController(
     @Autowired private val userMapper: UserMapper
 ) {
 
-    @GetMapping("/findByLogin")
+    @GetMapping("/findByLogin/{login}")
     fun findUserByLogin(@PathVariable login: String): ResponseEntity<UserResponse> {
         val user = userService.findByLogin(login)
         return ResponseEntity.ok(userMapper.userToDto(user))
     }
 
-    @PostMapping("/addFavoriteRoute")
+    @PostMapping("/addFavoriteRoute/{routeId}")
     fun addFavoriteRoute(@PathVariable routeId: UUID) {
         userService.addFavoriteRoute(getCurrentUserLogin(), routeId)
     }
 
-    @DeleteMapping("/deleteFavoriteRoute")
+    @DeleteMapping("/deleteFavoriteRoute/{routeId}")
     fun deleteFavoriteRoute(@PathVariable routeId: UUID) {
         userService.deleteFavoriteRoute(getCurrentUserLogin(), routeId)
     }
 
-    @PostMapping("/addCompletedRoute")
+    @PostMapping("/addCompletedRoute/{routeId}")
     fun addCompletedRoute(@PathVariable routeId: UUID) {
         userService.addCompletedRoute(getCurrentUserLogin(), routeId)
     }
 
-    @DeleteMapping("/deleteCompletedRoute")
+    @DeleteMapping("/deleteCompletedRoute/{routeId}")
     fun deleteCompletedRoute(@PathVariable routeId: UUID) {
         userService.deleteCompletedRoute(getCurrentUserLogin(), routeId)
     }
