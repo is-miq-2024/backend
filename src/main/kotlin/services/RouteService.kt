@@ -45,7 +45,7 @@ class RouteService(
             val route = optionalRoute.get()
 
             val updatedComments = route.comments.toMutableList().apply { add(comment) }
-            val updatedRate = ((route.rate * (route.comments.size - 1)) + comment.rate) / route.comments.size
+            val updatedRate = ((route.rate * (updatedComments.size - 1)) + comment.rate) / updatedComments.size
             val updatedRoute = route.copy(comments = updatedComments, rate = updatedRate)
 
             routeRepository.save(updatedRoute)
