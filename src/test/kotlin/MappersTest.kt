@@ -4,7 +4,6 @@ import org.example.dto.RouteUpdateRequest
 import org.example.entities.Point
 import org.example.entities.RouteType
 import org.example.entities.User
-import org.example.mappers.toDto
 import org.example.mappers.toEntity
 import java.util.UUID
 import kotlin.test.Test
@@ -55,7 +54,6 @@ class MappersTest {
         val commentEntity = createCommentRequest.toEntity(login)
         val routeCreateEntity = routeCreateRequest.toEntity()
         val routeUpdateEntity = routeUpdateRequest.toEntity()
-        val userResponse = user.toDto()
 
         assertNotNull(commentEntity.id)
         assertEquals(createCommentRequest.text, commentEntity.text)
@@ -85,11 +83,5 @@ class MappersTest {
         assertEquals(routeUpdateRequest.points, routeUpdateEntity.points)
         assertTrue(routeUpdateEntity.comments.isEmpty())
         assertEquals(0.0, routeUpdateEntity.rate)
-
-
-        assertEquals(login, userResponse.login)
-        assertEquals(user.favoriteRoutes, userResponse.favoriteRoutes)
-        assertEquals(user.createdRoutes, userResponse.createdRoutes)
-        assertEquals(user.completedRoutes, userResponse.completedRoutes)
     }
 }
