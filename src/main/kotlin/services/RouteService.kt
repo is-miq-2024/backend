@@ -25,7 +25,10 @@ class RouteService(
         return routeRepository.save(route)
     }
 
-    fun get(id: String): Route = routeRepository.findById(UUID.fromString(id)).orElseThrow {RouteException.routeNotFound(id)}
+    fun get(id: String): Route =
+        routeRepository.findById(UUID.fromString(id)).orElseThrow {RouteException.routeNotFound(id)}
+
+    fun get(ids: List<UUID>): List<Route> = routeRepository.findAllById(ids)
 
     fun getAll(routeFilter: RouteFilter): List<Route> {
         return routeRepository.findByFilter(routeFilter)

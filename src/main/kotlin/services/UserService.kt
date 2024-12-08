@@ -16,19 +16,46 @@ class UserService(
 
     fun addFavoriteRoute(login: String, routeId: UUID) {
         val user = findByLogin(login)
-        val updatedUser = user.copy(favoriteRoutes = user.favoriteRoutes + routeId)
-        userRepository.save(updatedUser)
+        if (!user.favoriteRoutes.contains(routeId)) {
+            val updatedUser = user.copy(favoriteRoutes = user.favoriteRoutes + routeId)
+            userRepository.save(updatedUser)
+        }
+    }
+
+    fun deleteFavoriteRoute(login: String, routeId: UUID) {
+        val user = findByLogin(login)
+        if (user.favoriteRoutes.contains(routeId)) {
+            val updatedUser = user.copy(favoriteRoutes = user.favoriteRoutes.filter { item -> item != routeId })
+            userRepository.save(updatedUser)
+        }
     }
 
     fun addCreatedRoute(login: String, routeId: UUID) {
         val user = findByLogin(login)
-        val updatedUser = user.copy(createdRoutes = user.createdRoutes + routeId)
-        userRepository.save(updatedUser)
+        if (!user.createdRoutes.contains(routeId)) {
+            val updatedUser = user.copy(createdRoutes = user.createdRoutes + routeId)
+            userRepository.save(updatedUser)
+        }
     }
 
     fun addCompletedRoute(login: String, routeId: UUID) {
         val user = findByLogin(login)
-        val updatedUser = user.copy(completedRoutes = user.completedRoutes + routeId)
-        userRepository.save(updatedUser)
+        if (!user.completedRoutes.contains(routeId)) {
+            val updatedUser = user.copy(completedRoutes = user.completedRoutes + routeId)
+            userRepository.save(updatedUser)
+        }
+    }
+
+    fun deleteCompletedRoute(login: String, routeId: UUID) {
+        val user = findByLogin(login)
+        if (user.completedRoutes.contains(routeId)) {
+            val updatedUser = user.copy(completedRoutes = user.completedRoutes.filter { item -> item != routeId })
+            userRepository.save(updatedUser)
+        }
+    }
+
+    fun isFavoriteForUser(routeId: UUID, login: String) : Boolean {
+        val user = findByLogin(login)
+        return user.favoriteRoutes.contains(routeId)
     }
 }

@@ -13,11 +13,11 @@ class UserResponse(
     val login: String,
 
     @Schema(description = "List of favorite route IDs")
-    val favoriteRoutes: List<UUID> = emptyList(),
+    val favoriteRoutes: List<RouteResponse> = emptyList(),
 
     @Schema(description = "List of created route IDs")
-    val createdRoutes: List<UUID> = emptyList(),
+    val createdRoutes: List<RouteResponse> = emptyList(),
 
     @Schema(description = "List of completed route IDs")
-    val completedRoutes: List<UUID> = emptyList(),
+    val completedRoutes: List<RouteResponse> = emptyList(),
 )

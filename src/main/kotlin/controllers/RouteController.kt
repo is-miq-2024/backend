@@ -3,10 +3,10 @@ package org.example.controllers
 import org.example.dto.CreateCommentRequest
 import org.example.dto.RouteFilter
 import org.example.dto.RouteCreateRequest
+import org.example.dto.RouteResponse
 import org.example.dto.RouteUpdateRequest
-import org.example.entities.Route
 import org.example.exception.AuthException
-import org.example.exception.UserException
+import org.example.mappers.RouteMapper
 import org.example.mappers.toEntity
 import org.example.services.RouteService
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,11 +26,13 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/route")
 class RouteController(
     @Autowired private val routeService: RouteService,
+    @Autowired private val routeMapper: RouteMapper
 ) {
 
     @PostMapping("/save")
-    fun saveRoute(@RequestBody routeRequest: RouteCreateRequest) : Route {
-        return routeService.save(getCurrentUserLogin(), routeRequest.toEntity())
+    fun saveRoute(@RequestBody routeRequest: RouteCreateRequest) : RouteResponse {
+        val route = routeService.save(getCurrentUserLogin(), routeRequest.toEntity())
+        return routeMapper.RouteToResponseDto(route, getCurrentUserLogin())
     }
 
     @PostMapping("/update")
@@ -39,8 +41,9 @@ class RouteController(
     }
 
     @GetMapping("/{id}")
-    fun getRoute(@PathVariable id: String) : Route {
-        return routeService.get(id)
+    fun getRoute(@PathVariable id: String) : RouteResponse {
+        val route = routeService.get(id)
+        return routeMapper.RouteToResponseDto(route, getCurrentUserLogin())
     }
 
     @PostMapping("/addComment")
@@ -52,8 +55,9 @@ class RouteController(
     }
 
     @PostMapping("/search")
-    fun getRoutes(@RequestBody routeFilter: RouteFilter) : List<Route> {
-        return routeService.getAll(routeFilter)
+    fun getRoutes(@RequestBody routeFilter: RouteFilter) : List<RouteResponse> {
+        val routes = routeService.getAll(routeFilter)
+        return routes.map { route ->  routeMapper.RouteToResponseDto(route, getCurrentUserLogin())}
     }
 
     @DeleteMapping("/{id}")
