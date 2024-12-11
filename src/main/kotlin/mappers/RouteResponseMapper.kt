@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class RouteMapper(
     @Autowired private val userService: UserService
 ) {
-     fun RouteToResponseDto(route: Route, login: String) : RouteResponse =
+     fun RouteToResponseDto(route: Route, login: String, author: String) : RouteResponse =
         RouteResponse(
             route.id,
             route.title,
@@ -22,6 +22,7 @@ class RouteMapper(
             route.points,
             route.comments,
             route.rate,
-            userService.isFavoriteForUser(route.id, login)
+            userService.isFavoriteForUser(route.id, login),
+            author
         )
 }

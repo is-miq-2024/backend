@@ -39,5 +39,8 @@ data class RouteResponse(
     val rate: Double,
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "flag to display whether the user likes the route")
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "route author")
+    val author: String
 )

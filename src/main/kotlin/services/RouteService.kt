@@ -25,8 +25,8 @@ class RouteService(
         return routeRepository.save(route)
     }
 
-    fun get(id: String): Route =
-        routeRepository.findById(UUID.fromString(id)).orElseThrow {RouteException.routeNotFound(id)}
+    fun get(id: UUID): Route =
+        routeRepository.findById(id).orElseThrow {RouteException.routeNotFound(id.toString())}
 
     fun get(ids: List<UUID>): List<Route> = routeRepository.findAllById(ids)
 
@@ -53,4 +53,6 @@ class RouteService(
             throw RouteException.routeNotFound(routeId.toString())
         }
     }
+
+    fun getAuthor(routeId: UUID) : String = userService.getByRouteId(routeId)
 }

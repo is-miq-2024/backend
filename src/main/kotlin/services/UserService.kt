@@ -58,4 +58,8 @@ class UserService(
         val user = findByLogin(login)
         return user.favoriteRoutes.contains(routeId)
     }
+
+    fun getByRouteId(routeId: UUID) : String =
+        userRepository.findByCreatedRoutesContaining(routeId).get(0).login
+
 }

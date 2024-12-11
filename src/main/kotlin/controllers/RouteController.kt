@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.UUID
 
 @RestController
 @CrossOrigin
@@ -39,7 +40,11 @@ class RouteController(
     @PostMapping("/save")
     fun saveRoute(@RequestBody routeRequest: RouteCreateRequest) : RouteResponse {
         val route = routeService.save(getCurrentUserLogin(), routeRequest.toEntity())
-        return routeMapper.RouteToResponseDto(route, getCurrentUserLogin())
+        return routeMapper.RouteToResponseDto(
+            route,
+            getCurrentUserLogin(),
+            routeService.getAuthor(route.id)
+        )
     }
 
     @PostMapping("/update")
@@ -49,8 +54,12 @@ class RouteController(
 
     @GetMapping("/{id}")
     fun getRoute(@PathVariable id: String) : RouteResponse {
-        val route = routeService.get(id)
-        return routeMapper.RouteToResponseDto(route, getCurrentUserLogin())
+        val route = routeService.get(UUID.fromString(id))
+        return routeMapper.RouteToResponseDto(
+            route,
+            getCurrentUserLogin(),
+            routeService.getAuthor(UUID.fromString(id))
+        )
     }
 
     @PostMapping("/addComment")
@@ -64,7 +73,11 @@ class RouteController(
     @PostMapping("/search")
     fun getRoutes(@RequestBody routeFilter: RouteFilter) : List<RouteResponse> {
         val routes = routeService.getAll(routeFilter)
-        return routes.map { route ->  routeMapper.RouteToResponseDto(route, getCurrentUserLogin())}
+        return routes.map { route ->  routeMapper.RouteToResponseDto(
+            route,
+            getCurrentUserLogin(),
+            routeService.getAuthor(route.id)
+        )}
     }
 
     @DeleteMapping("/{id}")
