@@ -5,11 +5,15 @@ import org.example.dto.RouteFilter
 import org.example.dto.RouteCreateRequest
 import org.example.dto.RouteResponse
 import org.example.dto.RouteUpdateRequest
+import org.example.dto.UserResponse
 import org.example.exception.AuthException
 import org.example.mappers.RouteMapper
+import org.example.mappers.UserMapper
 import org.example.mappers.toEntity
 import org.example.services.RouteService
+import org.example.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.User
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -26,7 +30,10 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/route")
 class RouteController(
     @Autowired private val routeService: RouteService,
-    @Autowired private val routeMapper: RouteMapper
+    @Autowired private val routeMapper: RouteMapper,
+
+    @Autowired private val userService: UserService,
+    @Autowired private val userMapper: UserMapper
 ) {
 
     @PostMapping("/save")
@@ -63,6 +70,12 @@ class RouteController(
     @DeleteMapping("/{id}")
     fun deleteRoute(@PathVariable id: String) {
         return routeService.delete(id)
+    }
+
+    @GetMapping("/findByLogin/{login}")
+    fun findUserByLogin(@PathVariable login: String): ResponseEntity<UserResponse> {
+        val user = userService.findByLogin(login)
+        return ResponseEntity.ok(userMapper.userToDto(user))
     }
 
     fun getCurrentUserLogin(): String {
