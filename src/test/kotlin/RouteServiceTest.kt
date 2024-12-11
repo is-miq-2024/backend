@@ -66,7 +66,7 @@ class RouteServiceTest {
         val routeId = UUID.randomUUID()
         `when`(routeRepository.findById(routeId)).thenReturn(Optional.of(route))
 
-        val foundRoute = routeService.get(routeId.toString())
+        val foundRoute = routeService.get(routeId)
 
         assertEquals(route, foundRoute)
     }
@@ -77,7 +77,7 @@ class RouteServiceTest {
         `when`(routeRepository.findById(routeId)).thenReturn(Optional.empty())
 
         val exception = assertThrows<RouteException> {
-            routeService.get(routeId.toString())
+            routeService.get(routeId)
         }
 
         assertEquals("route with id ${routeId} not found", exception.message)

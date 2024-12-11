@@ -20,6 +20,10 @@ class UserRepositoryTest (
     @BeforeEach
     fun setUp() {
         userRepository.deleteAll()
+        userRepository.save(User(
+            login = "test",
+            password = "12345678"
+        ))
     }
 
     @Test
