@@ -16,12 +16,12 @@ class UserMapper(
             user.login,
 
             routeService.get(user.favoriteRoutes).map { route ->
-                routeMapper.RouteToResponseDto(route, user.login) },
+                routeMapper.RouteToResponseDto(route, user.login, routeService.getAuthor(route.id)) },
 
             routeService.get(user.createdRoutes).map { route ->
-                routeMapper.RouteToResponseDto(route, user.login) },
+                routeMapper.RouteToResponseDto(route, user.login, routeService.getAuthor(route.id)) },
 
             routeService.get(user.completedRoutes).map { route ->
-                routeMapper.RouteToResponseDto(route, user.login) }
+                routeMapper.RouteToResponseDto(route, user.login, routeService.getAuthor(route.id)) }
         )
 }
